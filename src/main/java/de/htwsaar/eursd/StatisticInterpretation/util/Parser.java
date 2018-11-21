@@ -35,8 +35,8 @@ public class Parser
 		return number.doubleValue();
 	}
 
-	public static ArrayList<MedicalRecord> parseRecords() {
-		ArrayList<MedicalRecord> records = new ArrayList<MedicalRecord>();
+	static ArrayList<MedicalRecord> parseRecords() {
+		ArrayList<MedicalRecord> records = new ArrayList<>();
 		try {
 			File file = new File(FILE_PATH);
 			CSVParser parser = CSVParser.parse(file, Charset.defaultCharset(),
@@ -68,12 +68,5 @@ public class Parser
 		}
 
 		return records;
-	}
-
-
-
-	public static void main(String[] args) {
-		parseRecords();
-
 	}
 }

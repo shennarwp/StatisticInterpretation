@@ -1,18 +1,23 @@
 package de.htwsaar.eursd.StatisticInterpretation.util;
 
+import de.htwsaar.eursd.StatisticInterpretation.model.FrequencyTable;
 import de.htwsaar.eursd.StatisticInterpretation.model.MedicalRecord;
 
 import javax.swing.*;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
+
+import static de.htwsaar.eursd.StatisticInterpretation.util.Constants.*;
 
 public class TableVisualizer
 {
 	private static final ArrayList<MedicalRecord> records = Parser.parseRecords();
 	private static final int totalPeople = records.size();
 
+	/**
+	 * Display the table based on given data
+	 * @param column_header names of the column
+	 * @param tableData table contents
+	 */
 	private static void displayTable(String[] column_header, String[][] tableData) {
 		JFrame jf = new JFrame();
 		JTable jt;
@@ -25,8 +30,22 @@ public class TableVisualizer
 		jf.setVisible(true);
 	}
 
-	private static void createFrequencyTableSex() {
+	/**
+	 * extract the FrequencyTable-Object which contains the limits, the absolute and relatives frequencies
+	 * @param ft the Object
+	 * @return the Data formatted as double String-Array, ready to be processed with JTable
+	 */
+	private static String[][] extractFrequencyTable(FrequencyTable ft) {
+		String[][] tableData = {{ft.getRange()[0], String.valueOf(ft.getTotalAbsolut()[0]), String.valueOf(ft.getTotalRelative()[0])},
+								 {ft.getRange()[1], String.valueOf(ft.getTotalAbsolut()[1]), String.valueOf(ft.getTotalRelative()[1])},
+								 {ft.getRange()[2], String.valueOf(ft.getTotalAbsolut()[2]), String.valueOf(ft.getTotalRelative()[2])},
+								 {ft.getRange()[3], String.valueOf(ft.getTotalAbsolut()[3]), String.valueOf(ft.getTotalRelative()[3])},
+								 {ft.getRange()[4], String.valueOf(ft.getTotalAbsolut()[4]), String.valueOf(ft.getTotalRelative()[4])}};
+		return tableData;
+	}
 
+	//----------------------------------SEX / GENDER----------------------------------
+	private static void createFrequencyTableSex() {
 		int absolutMales = 0;
 		int absolutFemales = 0;
 
@@ -45,42 +64,19 @@ public class TableVisualizer
 								 {"Männlich (1)", String.valueOf(absolutMales), String.valueOf(relativeMales)}};
 
 		displayTable(column_header, tableData);
-
 	}
 
+	//----------------------------------WEIGHT----------------------------------
+	private static void createFrequencyTableWeight() {
+		double e = 0.01;
 
-	public static void createFrequencyTableDiscipline(){
-
-		int absolutPuenktlich = 0;
-		int absolutManchmal = 0;
-		int absolutSelten = 0;
-
-		for(MedicalRecord record: records) {
-			if(record.getDicipline() == 1)
-				absolutPuenktlich++;
-			else if (record.getDicipline() == 2)
-				absolutManchmal++;
-			else
-				absolutSelten++;
-
-		}
-
-		double relativePuenktlich = (double) absolutPuenktlich / totalPeople;
-		double relativeManchmal = (double) absolutManchmal / totalPeople;
-		double relativeSelten = (double) absolutSelten / totalPeople;
-
-
-		String[] column_header = {"Diziplin", "Hn(ai)", "hn(ai)"};
-		String[][] tableData ={{"Pünktlich (1)", String.valueOf(absolutPuenktlich), String.valueOf(relativePuenktlich)},
-								{"Manchmal (2)", String.valueOf(absolutManchmal), String.valueOf(relativeManchmal)},
-								{"Selten (3)", String.valueOf(absolutSelten), String.valueOf(relativeSelten)}};
-
-
-		displayTable(column_header, tableData);
-
+		String[] column_header = {"Gewicht", "Hn(ai)", "hn(ai)"};
+		FrequencyTable ft = Analyser.countFrequency(e, WEIGHT);
+		displayTable(column_header, extractFrequencyTable(ft));
 	}
 
-	public static void createFrequencyTableBloodType(){
+	//----------------------------------BLOODTYPE----------------------------------
+	private static void createFrequencyTableBloodType() {
 		int absolut_0 = 0;
 		int absolut_A = 0;
 		int absolut_B = 0;
@@ -97,96 +93,112 @@ public class TableVisualizer
 				absolut_AB++;
 		}
 
-
-		double relative_0 = (double) absolut_0 / totalPeople;
-		double relative_A = (double) absolut_A / totalPeople;
-		double relative_B = (double) absolut_B / totalPeople;
-		double relative_AB = (double) absolut_AB / totalPeople;
-
+		double relative_0 = absolut_0 / (double)totalPeople;
+		double relative_A = absolut_A / (double)totalPeople;
+		double relative_B = absolut_B / (double)totalPeople;
+		double relative_AB = absolut_AB / (double)totalPeople;
 
 		String[] column_header = {"Blood Type", "Hn(ai)", "hn(ai)"};
 		String[][] tableData ={{"Blood Type 0", String.valueOf(absolut_0), String.valueOf(relative_0)},
-				{"Blood Type A", String.valueOf(absolut_A), String.valueOf(relative_A)},
-				{"Blood Type B", String.valueOf(absolut_B), String.valueOf(relative_B)},
-				{"Blood Type AB", String.valueOf(absolut_AB), String.valueOf(relative_AB)}};
-
+								{"Blood Type A", String.valueOf(absolut_A), String.valueOf(relative_A)},
+								{"Blood Type B", String.valueOf(absolut_B), String.valueOf(relative_B)},
+								{"Blood Type AB", String.valueOf(absolut_AB), String.valueOf(relative_AB)}};
 
 		displayTable(column_header, tableData);
-
-
 	}
 
-	private static void createFrequencyTableWeight() {
-		int numberOfClasses = (int)Math.floor(Math.sqrt(records.size()));			//Klasseneinteilung
-		double maxWeight = 0;
-		double minWeight = 0;
-		double e = 0.01;															//Messgenauigkeit
+	//----------------------------------AGE----------------------------------
+	private static void createFrequencyTableAge() {
+		double e = 0.01;
 
-		maxWeight = Collections.max(records, Comparator.comparing(MedicalRecord::getWeight))
-								.getWeight();
-		minWeight = Collections.min(records, Comparator.comparing(MedicalRecord::getWeight))
-								.getWeight();
+		String[] column_header = {"Alter", "Hn(ai)", "hn(ai)"};
+		FrequencyTable ft = Analyser.countFrequency(e, AGE);
+		displayTable(column_header, extractFrequencyTable(ft));
+	}
 
-		double classWidth = (maxWeight - minWeight + e) / numberOfClasses;			//Klassenbreite
+	//----------------------------------TEMP0----------------------------------
+	private static void createFrequencyTableTemp0() {
+		double e = 0.01;
 
-		DecimalFormat df = new DecimalFormat("#.###");						//formatting to 3 decimals behind comma
-		double[] boundary = new double[6];											//limit
-		boundary[0] = Double.parseDouble(df.format(minWeight - (e/2)));
-		for(int i = 1; i < boundary.length; i++){
-			boundary[i] = Double.parseDouble(df.format(boundary[i-1] + classWidth));
+		String[] column_header = {"Temp 0", "Hn(ai)", "hn(ai)"};
+		FrequencyTable ft = Analyser.countFrequency(e, TEMP0);
+		displayTable(column_header, extractFrequencyTable(ft));
+	}
+
+	//----------------------------------TEMP12----------------------------------
+	private static void createFrequencyTableTemp12() {
+		double e = 0.01;
+
+		String[] column_header = {"Temp 12", "Hn(ai)", "hn(ai)"};
+		FrequencyTable ft = Analyser.countFrequency(e, TEMP12);
+		displayTable(column_header, extractFrequencyTable(ft));
+	}
+
+	//----------------------------------BLOODPRESSURE0----------------------------------
+	private static void createFrequencyTableBloodPressure0() {
+		double e = 0.01;
+
+		String[] column_header = {"BD0", "Hn(ai)", "hn(ai)"};
+		FrequencyTable ft = Analyser.countFrequency(e, BLOODPRESSURE0);
+		displayTable(column_header, extractFrequencyTable(ft));
+	}
+
+	//----------------------------------BLOODPRESSURE12----------------------------------
+	private static void createFrequencyTableBloodPressure12() {
+		double e = 0.01;
+
+		String[] column_header = {"BD12", "Hn(ai)", "hn(ai)"};
+		FrequencyTable ft = Analyser.countFrequency(e, BLOODPRESSURE12);
+		displayTable(column_header, extractFrequencyTable(ft));
+	}
+
+	//----------------------------------DICIPLINE----------------------------------
+	private static void createFrequencyTableDiscipline() {
+		int absolutPuenktlich = 0;
+		int absolutManchmal = 0;
+		int absolutSelten = 0;
+
+		for(MedicalRecord record: records) {
+			if(record.getDicipline() == 1)
+				absolutPuenktlich++;
+			else if (record.getDicipline() == 2)
+				absolutManchmal++;
+			else
+				absolutSelten++;
 		}
 
-		//absolut
-		int count0 = 0;
-		int count1 = 0;
-		int count2 = 0;
-		int count3 = 0;
-		int count4 = 0;
+		double relativePuenktlich = absolutPuenktlich / (double)totalPeople;
+		double relativeManchmal = absolutManchmal / (double)totalPeople;
+		double relativeSelten = absolutSelten / (double)totalPeople;
 
-		for(MedicalRecord record : records) {
-			double weight = record.getWeight();
-			if(weight > boundary[0] && weight < boundary[1])
-				count0++;
-			if(weight > boundary[1] && weight < boundary[2])
-				count1++;
-			if(weight > boundary[2] && weight < boundary[3])
-				count2++;
-			if(weight > boundary[3] && weight < boundary[4])
-				count3++;
-			if(weight > boundary[4] && weight < boundary[5])
-				count4++;
-		}
-
-		//percentage
-		double count0Percentage = count0 / (double)totalPeople;
-		double count1Percentage = count1 / (double)totalPeople;
-		double count2Percentage = count2 / (double)totalPeople;
-		double count3Percentage = count3 / (double)totalPeople;
-		double count4Percentage = count4 / (double)totalPeople;
-
-		//formatting the
-		String a0 = String.valueOf(boundary[0]) + " - " + String.valueOf(boundary[1]);
-		String a1 = String.valueOf(boundary[1]) + " - " + String.valueOf(boundary[2]);
-		String a2 = String.valueOf(boundary[2]) + " - " + String.valueOf(boundary[3]);
-		String a3 = String.valueOf(boundary[3]) + " - " + String.valueOf(boundary[4]);
-		String a4 = String.valueOf(boundary[4]) + " - " + String.valueOf(boundary[5]);
-
-		//column name and the data
-		String[] column_header = {"Gewicht", "Absolute Anzahl", "Relative Anzahl"};
-		String[][] tableData = {{a0, String.valueOf(count0), String.valueOf(count0Percentage)},
-								 {a1, String.valueOf(count1), String.valueOf(count1Percentage)},
-								 {a2, String.valueOf(count2), String.valueOf(count2Percentage)},
-								 {a3, String.valueOf(count3), String.valueOf(count3Percentage)},
-								 {a4, String.valueOf(count4), String.valueOf(count4Percentage)}};
+		String[] column_header = {"Diziplin", "Hn(ai)", "hn(ai)"};
+		String[][] tableData ={{"Pünktlich (1)", String.valueOf(absolutPuenktlich), String.valueOf(relativePuenktlich)},
+								{"Manchmal (2)", String.valueOf(absolutManchmal), String.valueOf(relativeManchmal)},
+								{"Selten (3)", String.valueOf(absolutSelten), String.valueOf(relativeSelten)}};
 
 		displayTable(column_header, tableData);
+	}
+
+	//----------------------------------DIFFERENCE----------------------------------
+	private static void createFrequencyTableDifference() {
+		double e = 0.01;
+
+		String[] column_header = {"Differenz", "Hn(ai)", "hn(ai)"};
+		FrequencyTable ft = Analyser.countFrequency(e, DIFFERENCE);
+		displayTable(column_header, extractFrequencyTable(ft));
 	}
 
 	public static void main(String[] args) {
-		//test
+
 	    createFrequencyTableSex();
-		createFrequencyTableDiscipline();
-		createFrequencyTableBloodType();
-		createFrequencyTableWeight();
+	    createFrequencyTableWeight();
+	    createFrequencyTableBloodType();
+	    createFrequencyTableAge();
+	    createFrequencyTableTemp0();
+	    createFrequencyTableTemp12();
+	    createFrequencyTableBloodPressure0();
+	    createFrequencyTableBloodPressure12();
+	    createFrequencyTableDiscipline();
+	    createFrequencyTableDifference();
 	}
 }

@@ -3,6 +3,9 @@ package de.htwsaar.eursd.StatisticInterpretation.model;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * model class which represent the record (each row) in the csv file
+ */
 @Getter @Setter
 public class MedicalRecord
 {
