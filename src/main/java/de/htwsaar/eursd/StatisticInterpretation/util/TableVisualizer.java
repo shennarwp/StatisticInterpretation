@@ -5,7 +5,7 @@ import de.htwsaar.eursd.StatisticInterpretation.model.MedicalRecord;
 import javax.swing.*;
 import java.util.ArrayList;
 
-public class Visualizer
+public class TableVisualizer
 {
 	private static final ArrayList<MedicalRecord> records = Parser.parseRecords();
 
