@@ -125,7 +125,8 @@ public class TableVisualizer
 	}
 
 	public static void main(String[] args) {
-		//createFrequencyTableSex();
+		//test
+	    //createFrequencyTableSex();
 		//createFrequencyTableDiscipline();
 		//createFrequencyTableBloodType();
 	}
