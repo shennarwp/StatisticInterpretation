@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+import static de.htwsaar.eursd.StatisticInterpretation.util.Constants.*;
+
 /**
  * analyse the imported csv file
  */
@@ -24,21 +26,21 @@ public class Analyser
 	private static double getMax(int ATTRIBUTE) {
 		double max = 0;
 		switch (ATTRIBUTE) {
-			case 0 : max = Collections.max(records, Comparator.comparing(MedicalRecord::getWeight))
-									   .getWeight(); break;
-			case 1 : max = Collections.max(records, Comparator.comparing(MedicalRecord::getAge))
-									   .getAge(); break;
-			case 2 : max = Collections.max(records, Comparator.comparing(MedicalRecord::getTemp0))
-									   .getTemp0(); break;
-			case 3 : max = Collections.max(records, Comparator.comparing(MedicalRecord::getTemp12))
-									   .getTemp12(); break;
-			case 4 : max = Collections.max(records, Comparator.comparing(MedicalRecord::getBloodPressure0))
-									   .getBloodPressure0(); break;
-			case 5 : max = Collections.max(records, Comparator.comparing(MedicalRecord::getBloodPressure12))
-									   .getBloodPressure12(); break;
-			case 6 : max = Collections.max(records, Comparator.comparing(MedicalRecord::getDifference))
-										.getDifference(); break;
-			default: break;
+			case WEIGHT 			: max = Collections.max(records, Comparator.comparing(MedicalRecord::getWeight))
+													    .getWeight(); break;
+			case AGE 				: max = Collections.max(records, Comparator.comparing(MedicalRecord::getAge))
+									   					.getAge(); break;
+			case TEMP0 				: max = Collections.max(records, Comparator.comparing(MedicalRecord::getTemp0))
+									   					.getTemp0(); break;
+			case TEMP12 			: max = Collections.max(records, Comparator.comparing(MedicalRecord::getTemp12))
+									   					.getTemp12(); break;
+			case BLOODPRESSURE0 	: max = Collections.max(records, Comparator.comparing(MedicalRecord::getBloodPressure0))
+													 	.getBloodPressure0(); break;
+			case BLOODPRESSURE12 	: max = Collections.max(records, Comparator.comparing(MedicalRecord::getBloodPressure12))
+													  	.getBloodPressure12(); break;
+			case DIFFERENCE 		: max = Collections.max(records, Comparator.comparing(MedicalRecord::getDifference))
+														.getDifference(); break;
+			default					: break;
 		}
 		return max;
 	}
