@@ -15,6 +15,9 @@ public class TableVisualizer
 
 	//aa
 	private static void createFrequencyTableSex() {
+		JFrame jf = new JFrame();
+		JTable jt;
+		String[] column_header = {"Geschlecht", "Hn(ai)", "hn(ai)"};
 
 		int absolutMales = 0;
 		int absolutFemales = 0;
@@ -120,7 +123,9 @@ public class TableVisualizer
 	}
 
 	public static void main(String[] args) {
-		//createFrequencyTableSex();
-		createFrequencyTableWeight();
+		//test
+	    //createFrequencyTableSex();
+		//createFrequencyTableDiscipline();
+		//createFrequencyTableBloodType();
 	}
 }
