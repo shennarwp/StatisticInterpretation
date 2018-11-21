@@ -13,6 +13,7 @@ public class TableVisualizer
 	private static final ArrayList<MedicalRecord> records = Parser.parseRecords();
 	private static final int totalPeople = records.size();
 
+	//aa
 	private static void createFrequencyTableSex() {
 
 		int absolutMales = 0;
