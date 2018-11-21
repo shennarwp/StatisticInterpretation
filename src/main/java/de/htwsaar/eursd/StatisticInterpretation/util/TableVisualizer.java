@@ -13,7 +13,18 @@ public class TableVisualizer
 	private static final ArrayList<MedicalRecord> records = Parser.parseRecords();
 	private static final int totalPeople = records.size();
 
-	//aa
+	private static void displayTable(String[] column_header, String[][] tableData) {
+		JFrame jf = new JFrame();
+		JTable jt;
+		jt = new JTable(tableData, column_header);
+		jt.setBounds(50,50,200,230);
+		JScrollPane scrollPane = new JScrollPane(jt);
+
+		jf.add(scrollPane);
+		jf.setSize(400,400);
+		jf.setVisible(true);
+	}
+
 	private static void createFrequencyTableSex() {
 
 		int absolutMales = 0;
@@ -33,15 +44,8 @@ public class TableVisualizer
 		String[][] tableData = {{"Weiblich (0)", String.valueOf(absolutFemales), String.valueOf(relativeFemales)},
 								 {"Männlich (1)", String.valueOf(absolutMales), String.valueOf(relativeMales)}};
 
-		JFrame jf = new JFrame();
-		JTable jt;
-		jt = new JTable(tableData, column_header);
-		jt.setBounds(50,50,200,230);
-		JScrollPane scrollPane = new JScrollPane(jt);
+		displayTable(column_header, tableData);
 
-		jf.add(scrollPane);
-		jf.setSize(300,400);
-		jf.setVisible(true);
 	}
 
 
@@ -72,15 +76,7 @@ public class TableVisualizer
 								{"Selten (3)", String.valueOf(absolutSelten), String.valueOf(relativeSelten)}};
 
 
-		JFrame jf = new JFrame();
-		JTable jt;
-		jt = new JTable(tableData, column_header);
-		jt.setBounds(50,50,200,230);
-		JScrollPane scrollPane = new JScrollPane(jt);
-
-		jf.add(scrollPane);
-		jf.setSize(400,400);
-		jf.setVisible(true);
+		displayTable(column_header, tableData);
 
 	}
 
@@ -115,15 +111,7 @@ public class TableVisualizer
 				{"Blood Type AB", String.valueOf(absolut_AB), String.valueOf(relative_AB)}};
 
 
-		JFrame jf = new JFrame();
-		JTable jt;
-		jt = new JTable(tableData, column_header);
-		jt.setBounds(50,50,200,230);
-		JScrollPane scrollPane = new JScrollPane(jt);
-
-		jf.add(scrollPane);
-		jf.setSize(400,400);
-		jf.setVisible(true);
+		displayTable(column_header, tableData);
 
 
 	}
@@ -191,16 +179,7 @@ public class TableVisualizer
 								 {a3, String.valueOf(count3), String.valueOf(count3Percentage)},
 								 {a4, String.valueOf(count4), String.valueOf(count4Percentage)}};
 
-		//Table properties
-		JFrame jf = new JFrame();
-		JTable jt;
-		jt = new JTable(tableData, column_header);
-		jt.setBounds(50,50,200,230);
-		JScrollPane scrollPane = new JScrollPane(jt);
-
-		jf.add(scrollPane);
-		jf.setSize(350,250);
-		jf.setVisible(true);
+		displayTable(column_header, tableData);
 	}
 
 	public static void main(String[] args) {
@@ -208,5 +187,6 @@ public class TableVisualizer
 	    createFrequencyTableSex();
 		createFrequencyTableDiscipline();
 		createFrequencyTableBloodType();
+		createFrequencyTableWeight();
 	}
 }
