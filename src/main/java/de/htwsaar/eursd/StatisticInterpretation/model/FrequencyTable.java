@@ -9,12 +9,14 @@ import lombok.Setter;
  */
 @Getter @Setter
 public class FrequencyTable {
-	private double[] boundary;
+	private String[] groups;
 	private int[] totalAbsolut;
 	private double[] totalRelative;
 
-	public FrequencyTable(double[] boundary, int[] totalAbsolut, double[] totalRelative) {
-		this.boundary = boundary;
+	public FrequencyTable(){}
+
+	public FrequencyTable(String[] groups, int[] totalAbsolut, double[] totalRelative) {
+		this.groups = groups;
 		this.totalAbsolut = totalAbsolut;
 		this.totalRelative = totalRelative;
 	}

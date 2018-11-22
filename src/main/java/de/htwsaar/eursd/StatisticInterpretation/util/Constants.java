@@ -13,4 +13,7 @@ class Constants
 	static final int DISCIPLINE = 8;
 	static final int DIFFERENCE = 9;
 
+	static final int[] DISCRETE = {SEX, BLOODTYPE, DISCIPLINE};
+	static  final int[] CONTINUOUS = {WEIGHT, AGE, TEMP0, TEMP12, BLOODPRESSURE0, BLOODPRESSURE12, DIFFERENCE};
+
 }
