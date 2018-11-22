@@ -5,16 +5,16 @@ import lombok.Setter;
 
 /**
  * Helpclass to represent the Table which contains the absolut and relative frequencies
- * of attributes that have double value
+ * of attributes that have double value (nur stetige Merkmale)
  */
 @Getter @Setter
 public class FrequencyTable {
-	private String[] range;
+	private double[] boundary;
 	private int[] totalAbsolut;
 	private double[] totalRelative;
 
-	public FrequencyTable(String[] range, int[] totalAbsolut, double[] totalRelative) {
-		this.range = range;
+	public FrequencyTable(double[] boundary, int[] totalAbsolut, double[] totalRelative) {
+		this.boundary = boundary;
 		this.totalAbsolut = totalAbsolut;
 		this.totalRelative = totalRelative;
 	}

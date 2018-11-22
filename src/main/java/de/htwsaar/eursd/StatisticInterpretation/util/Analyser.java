@@ -121,12 +121,6 @@ public class Analyser
 				count4++;
 		}
 
-		//preparing the arrays for the FrequencyTable-Object
-		String[] range = new String[5];
-		for(int i = 0; i < range.length; i++) {
-			range[i] = String.valueOf(boundary[i]) + " - " + String.valueOf(boundary[i+1]);
-		}
-
 		int[] totalAbsolut = new int[5];
 		totalAbsolut[0] = count0;
 		totalAbsolut[1] = count1;
@@ -142,6 +136,6 @@ public class Analyser
 		totalRelative[3] = count3 / (double)totalPeople;
 		totalRelative[4] = count4 / (double)totalPeople;
 
-		return new FrequencyTable(range, totalAbsolut, totalRelative);
+		return new FrequencyTable(boundary, totalAbsolut, totalRelative);
 	}
 }

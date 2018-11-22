@@ -36,12 +36,25 @@ public class TableVisualizer
 	 * @return the Data formatted as double String-Array, ready to be processed with JTable
 	 */
 	private static String[][] extractFrequencyTable(FrequencyTable ft) {
-		String[][] tableData = {{ft.getRange()[0], String.valueOf(ft.getTotalAbsolut()[0]), String.valueOf(ft.getTotalRelative()[0])},
-								 {ft.getRange()[1], String.valueOf(ft.getTotalAbsolut()[1]), String.valueOf(ft.getTotalRelative()[1])},
-								 {ft.getRange()[2], String.valueOf(ft.getTotalAbsolut()[2]), String.valueOf(ft.getTotalRelative()[2])},
-								 {ft.getRange()[3], String.valueOf(ft.getTotalAbsolut()[3]), String.valueOf(ft.getTotalRelative()[3])},
-								 {ft.getRange()[4], String.valueOf(ft.getTotalAbsolut()[4]), String.valueOf(ft.getTotalRelative()[4])}};
+		String[] range = combineBoundariesToRange(ft.getBoundary());
+		String[][] tableData = {{range[0], String.valueOf(ft.getTotalAbsolut()[0]), String.valueOf(ft.getTotalRelative()[0])},
+								 {range[1], String.valueOf(ft.getTotalAbsolut()[1]), String.valueOf(ft.getTotalRelative()[1])},
+								 {range[2], String.valueOf(ft.getTotalAbsolut()[2]), String.valueOf(ft.getTotalRelative()[2])},
+								 {range[3], String.valueOf(ft.getTotalAbsolut()[3]), String.valueOf(ft.getTotalRelative()[3])},
+								 {range[4], String.valueOf(ft.getTotalAbsolut()[4]), String.valueOf(ft.getTotalRelative()[4])}};
 		return tableData;
+	}
+
+	/**
+	 * Helpfunction to combine the limits in the array to string
+	 * @param boundary the array containing all the limits for the chart/graph/table
+	 * @return combined limits as string
+	 */
+	private static String[] combineBoundariesToRange(double[] boundary) {
+		String[] range = new String[boundary.length-1];
+		for(int i = 0; i < range.length; i++)
+			range[i] = String.valueOf(boundary[i]) + " - " + String.valueOf(boundary[i+1]);
+		return range;
 	}
 
 	//----------------------------------SEX / GENDER----------------------------------
