@@ -51,25 +51,25 @@ public class Analyser
 	 * @return min the minimum value
 	 */
 	private static double getMin(int ATTRIBUTE) {
-		double max = 0;
+		double min = 0;
 		switch (ATTRIBUTE) {
-			case 0 : max = Collections.min(records, Comparator.comparing(MedicalRecord::getWeight))
-					.getWeight(); break;
-			case 1 : max = Collections.min(records, Comparator.comparing(MedicalRecord::getAge))
-					.getAge(); break;
-			case 2 : max = Collections.min(records, Comparator.comparing(MedicalRecord::getTemp0))
-					.getTemp0(); break;
-			case 3 : max = Collections.min(records, Comparator.comparing(MedicalRecord::getTemp12))
-					.getTemp12(); break;
-			case 4 : max = Collections.min(records, Comparator.comparing(MedicalRecord::getBloodPressure0))
-					.getBloodPressure0(); break;
-			case 5 : max = Collections.min(records, Comparator.comparing(MedicalRecord::getBloodPressure12))
-					.getBloodPressure12(); break;
-			case 6 : max = Collections.min(records, Comparator.comparing(MedicalRecord::getDifference))
-					.getDifference(); break;
-			default: break;
+			case WEIGHT 			: min = Collections.min(records, Comparator.comparing(MedicalRecord::getWeight))
+														.getWeight(); break;
+			case AGE 				: min = Collections.min(records, Comparator.comparing(MedicalRecord::getAge))
+														.getAge(); break;
+			case TEMP0 				: min = Collections.min(records, Comparator.comparing(MedicalRecord::getTemp0))
+														.getTemp0(); break;
+			case TEMP12 			: min = Collections.min(records, Comparator.comparing(MedicalRecord::getTemp12))
+														.getTemp12(); break;
+			case BLOODPRESSURE0 	: min = Collections.min(records, Comparator.comparing(MedicalRecord::getBloodPressure0))
+														.getBloodPressure0(); break;
+			case BLOODPRESSURE12 	: min = Collections.min(records, Comparator.comparing(MedicalRecord::getBloodPressure12))
+														.getBloodPressure12(); break;
+			case DIFFERENCE 		: min = Collections.min(records, Comparator.comparing(MedicalRecord::getDifference))
+														.getDifference(); break;
+			default					: break;
 		}
-		return max;
+		return min;
 	}
 
 	/**
@@ -98,14 +98,14 @@ public class Analyser
 		for(MedicalRecord record : records) {
 			double value = 0;
 			switch (ATTRIBUTE) {								//switch between attribute chosen
-				case 0 : value = record.getWeight(); break;
-				case 1 : value = record.getAge(); break;
-				case 2 : value = record.getTemp0(); break;
-				case 3 : value = record.getTemp12(); break;
-				case 4 : value = record.getBloodPressure0(); break;
-				case 5 : value = record.getBloodPressure12(); break;
-				case 6 : value = record.getDifference(); break;
-				default: break;
+				case WEIGHT 			: value = record.getWeight(); break;
+				case AGE 				: value = record.getAge(); break;
+				case TEMP0 				: value = record.getTemp0(); break;
+				case TEMP12 			: value = record.getTemp12(); break;
+				case BLOODPRESSURE0 	: value = record.getBloodPressure0(); break;
+				case BLOODPRESSURE12 	: value = record.getBloodPressure12(); break;
+				case DIFFERENCE 		: value = record.getDifference(); break;
+				default					: break;
 			}
 
 			//count the absolute frequencies
@@ -121,13 +121,6 @@ public class Analyser
 				count4++;
 		}
 
-		//count the relative frequencies
-		double count0Percentage = count0 / (double)totalPeople;
-		double count1Percentage = count1 / (double)totalPeople;
-		double count2Percentage = count2 / (double)totalPeople;
-		double count3Percentage = count3 / (double)totalPeople;
-		double count4Percentage = count4 / (double)totalPeople;
-
 		//preparing the arrays for the FrequencyTable-Object
 		String[] range = new String[5];
 		for(int i = 0; i < range.length; i++) {
@@ -141,14 +134,14 @@ public class Analyser
 		totalAbsolut[3] = count3;
 		totalAbsolut[4] = count4;
 
+		//count the relative frequencies
 		double[] totalRelative = new double[5];
-		totalRelative[0] = count0Percentage;
-		totalRelative[1] = count1Percentage;
-		totalRelative[2] = count2Percentage;
-		totalRelative[3] = count3Percentage;
-		totalRelative[4] = count4Percentage;
+		totalRelative[0] = count0 / (double)totalPeople;
+		totalRelative[1] = count1 / (double)totalPeople;
+		totalRelative[2] = count2 / (double)totalPeople;
+		totalRelative[3] = count3 / (double)totalPeople;
+		totalRelative[4] = count4 / (double)totalPeople;
 
 		return new FrequencyTable(range, totalAbsolut, totalRelative);
-		//return ft;
 	}
 }
