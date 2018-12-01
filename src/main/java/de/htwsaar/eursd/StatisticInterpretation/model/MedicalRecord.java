@@ -1,5 +1,6 @@
 package de.htwsaar.eursd.StatisticInterpretation.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,6 +18,6 @@ public class MedicalRecord
 	private double temp12;
 	private double bloodPressure0;
 	private double bloodPressure12;
-	private int dicipline;
+	private int discipline;
 	private double difference;
 }

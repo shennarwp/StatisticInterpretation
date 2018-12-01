@@ -13,7 +13,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class Parser
+class Parser
 {
 	private static final String FILE_PATH = "src/main/resources/medizin.csv";
 
@@ -40,9 +40,9 @@ public class Parser
 		try {
 			File file = new File(FILE_PATH);
 			CSVParser parser = CSVParser.parse(file, Charset.defaultCharset(),
-					CSVFormat.DEFAULT
-							.withDelimiter(';')
-							.withFirstRecordAsHeader());
+								CSVFormat.DEFAULT
+										 .withDelimiter(';')
+										 .withFirstRecordAsHeader());
 
 			for (CSVRecord csvRecord : parser) {
 				MedicalRecord medicalRecord = new MedicalRecord();
@@ -55,18 +55,15 @@ public class Parser
 				medicalRecord.setTemp12(parseDouble(csvRecord.get(5)));
 				medicalRecord.setBloodPressure0(parseDouble(csvRecord.get(6)));
 				medicalRecord.setBloodPressure12(parseDouble(csvRecord.get(7)));
-				medicalRecord.setDicipline(Integer.parseInt(csvRecord.get(8)));
+				medicalRecord.setDiscipline(Integer.parseInt(csvRecord.get(8)));
 				medicalRecord.setDifference(parseDouble(csvRecord.get(9)));
 
 				records.add(medicalRecord);
 			}
 
-		} catch (IOException e) {
+		} catch (IOException | ParseException e) {
 			System.err.println(e);
-		} catch (ParseException pe) {
-			System.err.println(pe);
 		}
-
 		return records;
 	}
 }

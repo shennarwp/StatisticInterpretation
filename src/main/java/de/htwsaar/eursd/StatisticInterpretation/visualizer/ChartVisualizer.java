@@ -1,7 +1,10 @@
-package de.htwsaar.eursd.StatisticInterpretation.util;
+package de.htwsaar.eursd.StatisticInterpretation.visualizer;
 
 
 import de.htwsaar.eursd.StatisticInterpretation.model.FrequencyTable;
+import de.htwsaar.eursd.StatisticInterpretation.util.Analyzer;
+import de.htwsaar.eursd.StatisticInterpretation.util.ContinuousAnalyzer;
+import de.htwsaar.eursd.StatisticInterpretation.util.DiscreteAnalyzer;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartFrame;
 import org.jfree.chart.JFreeChart;
@@ -11,13 +14,43 @@ import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
 
 import java.awt.*;
+import java.util.Arrays;
 
 import static de.htwsaar.eursd.StatisticInterpretation.util.Constants.*;
 
-public class Charts {
+public class ChartVisualizer
+{
+    private Analyzer analyzer;
+    private FrequencyTable frequencyTable;
+
+    public ChartVisualizer(int category)
+    {
+        if(Arrays.stream(DISCRETE).anyMatch(i -> i == category))
+            analyzer = new DiscreteAnalyzer(category);
+        if(Arrays.stream(CONTINUOUS).anyMatch(i -> i == category))
+            analyzer = new ContinuousAnalyzer(category);
+    }
 
 
-    private static void initUI_BarChart(String titleBar, String category, String value)  {
+
+    private void createChart() {
+        switch(analyzer.getCHOSENCATEGORY())
+        {
+            case SEX: createChartSex(); break;
+            case WEIGHT: createChartWeight(); break;
+            case BLOODTYPE: createChartBloodType(); break;
+            case AGE: createChartAge(); break;
+            case TEMP0: createChartTemp0(); break;
+            case TEMP12: createChartTemp12(); break;
+            case BLOODPRESSURE0: createChartBloodPressure0(); break;
+            case BLOODPRESSURE12: createChartBloodPressure12(); break;
+            case DISCIPLINE: createChartDicipline(); break;
+            case DIFFERENCE: createChartDifference(); break;
+        }
+    }
+
+
+    private void initUI_BarChart(String titleBar, String category, String value)  {
 
         CategoryDataset dataset = createDataset();
 
@@ -37,7 +70,7 @@ public class Charts {
 
     }
 
-    private static void initUI_PieChart(String titlePie) {
+    private void initUI_PieChart(String titlePie) {
 
         DefaultPieDataset dataset = createPieDataset();
 
@@ -51,28 +84,28 @@ public class Charts {
         frame.setVisible(true);
     }
 
-    private static CategoryDataset createDataset() {
+    private CategoryDataset createDataset() {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        FrequencyTable frequencyTable = Analyser.countFrequency(WEIGHT);
-        for(int i= 0; i< frequencyTable.getGroups().length; i++)
-        {
+        frequencyTable = analyzer.countFrequency();
+
+        for(int i= 0; i < frequencyTable.getGroups().length; i++) {
             dataset.setValue(frequencyTable.getTotalAbsolut()[i],"", frequencyTable.getGroups()[i]);
         }
         return dataset;
     }
 
-    private static DefaultPieDataset createPieDataset() {
+    private DefaultPieDataset createPieDataset() {
 
         DefaultPieDataset dataset = new DefaultPieDataset();
-        FrequencyTable frequencyTable = Analyser.countFrequency(WEIGHT);
-        for (int i = 0 ; i < frequencyTable.getGroups().length; i++){
+        frequencyTable = analyzer.countFrequency();
+        for (int i = 0 ; i < frequencyTable.getGroups().length; i++) {
             dataset.setValue(frequencyTable.getGroups()[i], frequencyTable.getTotalAbsolut()[i]);
         }
         return dataset;
     }
 
 
-    private static void createChartSex(){
+    private void createChartSex(){
         String titleBar = "Bar Chart for Sex";
         String category = "Category";
         String value = "Value";
@@ -81,7 +114,7 @@ public class Charts {
         initUI_BarChart(titleBar,category,value);
     }
 
-    private static void createChartWeight(){
+    private void createChartWeight(){
         String titleBar = "Bar Chart for Weight";
         String category = "Weight´s range";
         String value = "Hn(Ki)/183";
@@ -90,7 +123,7 @@ public class Charts {
         initUI_BarChart(titleBar,category,value);
     }
 
-    private static void createChartBloodType(){
+    private void createChartBloodType(){
         String titleBar = "Bar Chart for Blood Type";
         String category = "Category";
         String value = "Value";
@@ -99,7 +132,7 @@ public class Charts {
         initUI_BarChart(titleBar,category,value);
     }
 
-    private static void createChartAge(){
+    private void createChartAge(){
         String titleBar = "Bar Chart for Age";
         String category = "Age´s range";
         String value = "Value";
@@ -108,7 +141,7 @@ public class Charts {
         initUI_BarChart(titleBar,category,value);
     }
 
-    private static void createChartTemp0(){
+    private void createChartTemp0(){
         String titleBar = "Bar Chart for Temp0";
         String category = "Temp0´s range";
         String value = "Value";
@@ -117,7 +150,7 @@ public class Charts {
         initUI_BarChart(titleBar,category,value);
     }
 
-    private static void createChartTemp12(){
+    private void createChartTemp12(){
         String titleBar = "Bar Chart for Temp12";
         String category = "Temp12´s range";
         String value = "Value";
@@ -126,7 +159,7 @@ public class Charts {
         initUI_BarChart(titleBar,category,value);
     }
 
-    private static void createChartBloodPressure0(){
+    private void createChartBloodPressure0(){
         String titleBar = "Bar Chart for Blood Pressure 0";
         String category = "Blood Pressure 0´s range";
         String value = "Value";
@@ -134,7 +167,7 @@ public class Charts {
         initUI_PieChart(titlePie);
         initUI_BarChart(titleBar,category,value);
     }
-    private static void createChartBloodPressure12(){
+    private void createChartBloodPressure12(){
         String titleBar = "Bar Chart for Blood Pressure 12";
         String category = "Blood Pressure 12´s range";
         String value = "Value";
@@ -143,7 +176,7 @@ public class Charts {
         initUI_BarChart(titleBar,category,value);
     }
 
-    private static void createChartDicipline(){
+    private void createChartDicipline(){
         String titleBar = "Bar Chart for Dicipline";
         String category = "Dicipline´s range";
         String value = "Value";
@@ -152,7 +185,7 @@ public class Charts {
         initUI_BarChart(titleBar,category,value);
     }
 
-    private static void createChartDifference(){
+    private void createChartDifference(){
         String titleBar = "Bar Chart for Difference";
         String category = "Difference´s range";
         String value = "Value";
@@ -161,10 +194,10 @@ public class Charts {
         initUI_BarChart(titleBar,category,value);
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         //createChartSex();
-        createChartWeight();
-
+        //createChartWeight();
+        new ChartVisualizer(SEX).createChart();
     }
 
 }
