@@ -4,6 +4,7 @@ import de.htwsaar.eursd.StatisticInterpretation.model.FrequencyTable;
 import de.htwsaar.eursd.StatisticInterpretation.util.Analyzer;
 import de.htwsaar.eursd.StatisticInterpretation.util.ContinuousAnalyzer;
 import de.htwsaar.eursd.StatisticInterpretation.util.DiscreteAnalyzer;
+import lombok.Getter;
 
 import javax.swing.*;
 
@@ -15,7 +16,6 @@ public class TableVisualizer
 {
 	private Analyzer analyzer;
 	private FrequencyTable frequencyTable;
-	private static String[] columnHeader = {"Geschlecht", "Gewicht", "Blutgruppe", "Alter", "Temp0", "Temp12", "BD 0", "BD 12", "Diziplin", "Differenz"};
 
 	/**
 	 * Constructor, create analyzer-object depends on whether the chosen category is discrete or continuous
@@ -32,19 +32,18 @@ public class TableVisualizer
 	/**
 	 * Display the table based on given data
 	 */
-	private void createFrequencyTable() {
+	public void displayTable() {
 		frequencyTable = analyzer.countFrequency();			//start counting the frequency
 		String[][] tableData = extractFrequencyTable();		//extracting the data for the table
 		String[] column_header = createColumnHeader();			//creating the column header
 
 		JFrame jf = new JFrame();
-		JTable jt;
-		jt = new JTable(tableData, column_header);
+		JTable jt = new JTable(tableData, column_header);
 		jt.setBounds(50,50,200,230);
 		JScrollPane scrollPane = new JScrollPane(jt);
 
 		jf.add(scrollPane);
-		jf.setSize(400,400);
+		jf.setSize(550,150);
 		jf.setVisible(true);
 	}
 
@@ -73,19 +72,6 @@ public class TableVisualizer
 	 * @return String Array containing the header
 	 */
 	private String[] createColumnHeader() {
-		return new String[] {columnHeader[analyzer.getCHOSENCATEGORY()], "Hn(ai)", "hn(ai)"};
-	}
-
-	public static void main(String[] args) {
-		new TableVisualizer(SEX).createFrequencyTable();
-		new TableVisualizer(WEIGHT).createFrequencyTable();
-		new TableVisualizer(BLOODTYPE).createFrequencyTable();
-		new TableVisualizer(AGE).createFrequencyTable();
-		new TableVisualizer(TEMP0).createFrequencyTable();
-		new TableVisualizer(TEMP12).createFrequencyTable();
-		new TableVisualizer(BLOODPRESSURE0).createFrequencyTable();
-		new TableVisualizer(BLOODPRESSURE12).createFrequencyTable();
-		new TableVisualizer(DISCIPLINE).createFrequencyTable();
-		new TableVisualizer(DIFFERENCE).createFrequencyTable();
+		return new String[] {CATEGORY[analyzer.getCHOSENCATEGORY()], "Hn(ai)", "hn(ai)"};
 	}
 }

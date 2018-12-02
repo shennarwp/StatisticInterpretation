@@ -10,20 +10,44 @@ import static de.htwsaar.eursd.StatisticInterpretation.util.Constants.*;
 
 public class DiscreteAnalyzer extends Analyzer
 {
+	private Frequency frequency;
+
+	/**
+	 * Constructor, call the superclass constructor just for setting the CHOSENCATEGORY,
+	 * @param category the chosen category
+	 */
 	public DiscreteAnalyzer(int category) {
 		super(category);
 	}
 
 	/**
-	 * switching between Discrete categories (stetige Merkmale)
+	 * collecting all the data of the chosen category in the records and then,
+	 * create Frequency-Object for counting the frequencies by adding it with all the data
+	 */
+	private void initializeData() {
+		frequency = new Frequency();
+		switch(getCHOSENCATEGORY()) {
+			case SEX		: records.stream().mapToInt(MedicalRecord::getSex).forEach(frequency::addValue);
+							  break;
+			case BLOODTYPE	: records.stream().mapToInt(MedicalRecord::getBloodType).forEach(frequency::addValue);
+							  break;
+			case DISCIPLINE	: records.stream().mapToInt(MedicalRecord::getDiscipline).forEach(frequency::addValue);
+							  break;
+			default			: break;
+		}
+	}
+
+	/**
+	 * switching between Discrete categories (stetige Merkmale) based on CHOSENCATEGORY attribute in superclass-field
 	 * which the frequencies want to be counted
 	 * @return ft FrequencyTable Object which contains the table data
 	 */
 	@Override
 	public FrequencyTable countFrequency() {
+		initializeData();
 		FrequencyTable ft = new FrequencyTable();
-		switch(CHOSENCATEGORY) {
-			case SEX		: ft = countDiscreteFrequencySex();	 break;
+		switch(getCHOSENCATEGORY()) {
+			case SEX		: ft = countDiscreteFrequencySex(); break;
 			case BLOODTYPE	: ft = countDiscreteFrequencyBloodType(); break;
 			case DISCIPLINE	: ft = countDiscreteFrequencyDiscipline(); break;
 			default			: break;
@@ -37,8 +61,6 @@ public class DiscreteAnalyzer extends Analyzer
 	 */
 	private FrequencyTable countDiscreteFrequencySex() {
 		String[] groups = {"Weiblich", "Männlich"};
-		Frequency frequency = new Frequency();
-		records.stream().mapToInt(MedicalRecord::getSex).forEach(frequency::addValue);
 
 		long[] totalAbsolut = {frequency.getCount(FEMALE),
 								frequency.getCount(MALE)};
@@ -55,8 +77,6 @@ public class DiscreteAnalyzer extends Analyzer
 	 */
 	private FrequencyTable countDiscreteFrequencyBloodType() {
 		String[] groups = {"O", "A", "B", "AB"};
-		Frequency frequency = new Frequency();
-		records.stream().mapToInt(MedicalRecord::getBloodType).forEach(frequency::addValue);
 
 		long[] totalAbsolut = {frequency.getCount(BLOOD_0),
 								frequency.getCount(BLOOD_A),
@@ -77,8 +97,6 @@ public class DiscreteAnalyzer extends Analyzer
 	 */
 	private FrequencyTable countDiscreteFrequencyDiscipline() {
 		String[] groups = {"Pünktlich", "Manchmal", "Selten"};
-		Frequency frequency = new Frequency();
-		records.stream().mapToInt(MedicalRecord::getDiscipline).forEach(frequency::addValue);
 
 		long[] totalAbsolut = {frequency.getCount(PUENKTLICH),
 								frequency.getCount(MANCHMAL),
@@ -91,9 +109,13 @@ public class DiscreteAnalyzer extends Analyzer
 		return new FrequencyTable(groups, totalAbsolut, totalRelative);
 	}
 
+	/**
+	 * find the most frequent element in the data
+	 * @return List containing element(s) which have the highest frequency
+	 */
 	List<Comparable<?>> findMode() {
 		Frequency frequency = new Frequency();
-		switch(CHOSENCATEGORY) {
+		switch(getCHOSENCATEGORY()) {
 			case SEX:
 				records.stream().mapToInt(MedicalRecord::getSex).mapToObj(intToSex).forEach(frequency::addValue);
 				break;

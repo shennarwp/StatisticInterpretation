@@ -15,6 +15,9 @@ public class Constants
 	public static final int DISCIPLINE = 8;
 	public static final int DIFFERENCE = 9;
 
+	public static final String[] CATEGORY = {"Sex/Gender", "Weight", "Blood Type", "Age", "Temperature at month 0", "Temperature at month 12",
+											 "Blood pressure at month 0", "Blood pressure at month 12", "Discipline", "Difference"};
+
 	public static final int[] DISCRETE = {SEX, BLOODTYPE, DISCIPLINE};
 	public static final int[] CONTINUOUS = {WEIGHT, AGE, TEMP0, TEMP12, BLOODPRESSURE0, BLOODPRESSURE12, DIFFERENCE};
 
@@ -32,9 +35,9 @@ public class Constants
 
 	static final IntFunction<String> intToSex = i -> {
 		if(i == FEMALE)
-			return "Weiblich";
+			return "Female";
 		if(i == MALE)
-			return "Männlich";
+			return "Male";
 		return "invalid sex!";
 	};
 

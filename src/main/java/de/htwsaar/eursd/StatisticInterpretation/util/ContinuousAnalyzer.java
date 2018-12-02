@@ -7,6 +7,7 @@ import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
 
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.*;
 import java.util.function.*;
 
@@ -25,15 +26,20 @@ public class ContinuousAnalyzer extends Analyzer
 
 	/**
 	 * Constructor, call the superclass constructor just for setting the CHOSENCATEGORY,
-	 * collecting all the data of the chosen category in the records and then,
-	 * create DescriptiveStatistics-Object for various statistical terms with the data as parameter, and
-	 * create EmpiricalDistribution-Object for counting the frequencies and all the boundaries by loading it with the data
 	 * @param category the chosen category
 	 */
 	public ContinuousAnalyzer(int category) {
 		super(category);
+	}
+
+	/**
+	 * collecting all the data of the chosen category in the records and then,
+	 * create DescriptiveStatistics-Object for various statistical terms with the data as parameter, and
+	 * create EmpiricalDistribution-Object for counting the frequencies and all the boundaries by loading it with the data
+	 */
+	private void initializeData() {
 		double[] data = new double[totalPeople];
-		switch(category)
+		switch(getCHOSENCATEGORY())
 		{
 			case WEIGHT:
 				data = records.stream().mapToDouble(MedicalRecord::getWeight).toArray();
@@ -70,11 +76,12 @@ public class ContinuousAnalyzer extends Analyzer
 	 */
 	@Override
 	public FrequencyTable countFrequency() {
+		initializeData();
 		Double[] boundary = getBoundary();
 
 		String[] group = new String[boundary.length-1];
 		for(int i = 0; i < group.length; i++) {
-			group[i] = String.valueOf(boundary[i]) + " - " + String.valueOf(boundary[i + 1]);
+			group[i] = boundary[i] + " - " + boundary[i + 1];
 		}
 
 		//retrieving absolute frequencies from List<SummaryStatistic> returned from distribution.getBinStats()
@@ -96,8 +103,10 @@ public class ContinuousAnalyzer extends Analyzer
 	 * calculate the boundaries of the intervals of the category
 	 * @return Double-Array containing all the boundaries
 	 */
-	Double[] getBoundary() {
-		DecimalFormat df = new DecimalFormat(THREEDECIMALPLACES);			//formatting to only 3 decimal places
+	private Double[] getBoundary() {
+		DecimalFormat df = (DecimalFormat)NumberFormat.getNumberInstance(Locale.US);
+		df.applyPattern(THREEDECIMALPLACES);								//formatting to only 3 decimal places
+
 		ArrayList<Double> boundary = new ArrayList<>();
 		double lowestBound = Double.parseDouble(df.format(getMin() - (ACCURACY / 2)));
 

@@ -17,12 +17,12 @@ public abstract class Analyzer
 	static final int totalPeople = records.size();
 
 	@Getter @Setter
-	int CHOSENCATEGORY;
+	private int CHOSENCATEGORY;
 
 	/**
 	 * Constructor, setting the CHOSENCATEGORY based on the passed parameter
 	 */
-	Analyzer(int category) throws CategoryException
+	Analyzer(int category)
 	{
 		CategoryException.checkCategoryIndex(category);
 		setCHOSENCATEGORY(category);
