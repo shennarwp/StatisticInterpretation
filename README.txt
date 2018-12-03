@@ -5,8 +5,10 @@ PIRI, SHENNA R.W            3737748
 
 -----------------------------------------------------------------------------------------------------------------------
 
-1. Run the Program from Start.java
-2. Select 1 of 10 categories
+1. Extract
+2. open folder in Intellij
+3. Run the Program from Main.java
+4. Select 1 of 10 categories
     For example:
     Category 5 stands for "Temperature at month 0 " category
 3.You can choose 1 of 4 functions
@@ -15,7 +17,11 @@ PIRI, SHENNA R.W            3737748
 
 OR
 
-JUST RUN THIS COMMAND / FILE:
+1. Extract
+2. Navigate to folder ./StatisticInterpretation/target
+3. run the command:
+            java - jar eursd-1.0-SNAPSHOT-jar-with-dependencies.jar
+
 
 
 
