@@ -4,6 +4,7 @@ import de.htwsaar.eursd.StatisticInterpretation.model.FrequencyTable;
 import de.htwsaar.eursd.StatisticInterpretation.model.MedicalRecord;
 import org.apache.commons.math3.stat.Frequency;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static de.htwsaar.eursd.StatisticInterpretation.util.Constants.*;
@@ -18,6 +19,7 @@ public class DiscreteAnalyzer extends Analyzer
 	 */
 	public DiscreteAnalyzer(int category) {
 		super(category);
+		initializeData();
 	}
 
 	/**
@@ -44,7 +46,6 @@ public class DiscreteAnalyzer extends Analyzer
 	 */
 	@Override
 	public FrequencyTable countFrequency() {
-		initializeData();
 		FrequencyTable ft = new FrequencyTable();
 		switch(getCHOSENCATEGORY()) {
 			case SEX		: ft = countDiscreteFrequencySex(); break;
@@ -114,20 +115,13 @@ public class DiscreteAnalyzer extends Analyzer
 	 * @return List containing element(s) which have the highest frequency
 	 */
 	List<Comparable<?>> findMode() {
-		Frequency frequency = new Frequency();
-		switch(getCHOSENCATEGORY()) {
-			case SEX:
-				records.stream().mapToInt(MedicalRecord::getSex).mapToObj(intToSex).forEach(frequency::addValue);
-				break;
-			case BLOODTYPE:
-				records.stream().mapToInt(MedicalRecord::getBloodType).mapToObj(intToBloodType).forEach(frequency::addValue);
-				break;
-			case DISCIPLINE:
-				records.stream().mapToInt(MedicalRecord::getDiscipline).mapToObj(intToDiscipline) .forEach(frequency::addValue);
-				break;
-			default:
-				break;
-		}
+
 		return frequency.getMode();
+	}
+
+	@Override
+	public void printStatistics(){
+		System.out.println("Mode: " + findMode());
+		System.out.println("\n");
 	}
 }

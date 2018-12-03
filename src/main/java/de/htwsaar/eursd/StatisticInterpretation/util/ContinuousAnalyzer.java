@@ -30,6 +30,7 @@ public class ContinuousAnalyzer extends Analyzer
 	 */
 	public ContinuousAnalyzer(int category) {
 		super(category);
+		initializeData();
 	}
 
 	/**
@@ -76,7 +77,6 @@ public class ContinuousAnalyzer extends Analyzer
 	 */
 	@Override
 	public FrequencyTable countFrequency() {
-		initializeData();
 		Double[] boundary = getBoundary();
 
 		String[] group = new String[boundary.length-1];
@@ -191,5 +191,19 @@ public class ContinuousAnalyzer extends Analyzer
 	 */
 	double findStandardDeviation() {
 		return statistics.getStandardDeviation();
+	}
+
+	@Override
+	public void printStatistics(){
+		System.out.println("Mean: " + findMean());
+		System.out.println("Median: " + findMedian());
+		System.out.println("Quantile 25%: " + find25PercentQuantile());
+		System.out.println("Quantile 75%: " + find75PercentQuantile());
+		System.out.println("Range: " + findRange());
+		System.out.println("Quantile-range:" + findPercentileRange());
+		System.out.println("Variance: " + findVariance());
+		System.out.println("Standard Deviation" + findStandardDeviation());
+		System.out.println("\n");
+
 	}
 }
