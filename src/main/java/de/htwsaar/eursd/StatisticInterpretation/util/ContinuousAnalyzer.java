@@ -193,6 +193,7 @@ public class ContinuousAnalyzer extends Analyzer
 		return statistics.getStandardDeviation();
 	}
 
+	//print method
 	@Override
 	public void printStatistics(){
 		System.out.println("Mean: " + findMean());

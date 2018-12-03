@@ -18,6 +18,10 @@ import static de.htwsaar.eursd.StatisticInterpretation.util.Constants.DISCRETE;
 public class Start{
     private static Scanner scanner = new Scanner(System.in);
 
+    /**
+     * Read the input answer from user
+     * @return input answer
+     */
     public static char readAntwort() {
         char antwort;
         System.out.print("Again (y/n)? \n");
@@ -31,6 +35,9 @@ public class Start{
     }
 
 
+    /**
+     * Start function for Dialog class
+     */
     public void start() {
         char antwort = 'y';
         while (antwort == 'y') {
@@ -91,6 +98,10 @@ public class Start{
     }
 
 
+    /**
+     * main method for the Program
+     * @param args
+     */
     public static void main(String[] args){
         try{
             new Start().start();

@@ -119,6 +119,7 @@ public class DiscreteAnalyzer extends Analyzer
 		return frequency.getMode();
 	}
 
+    //print method
 	@Override
 	public void printStatistics(){
 		System.out.println("Mode: " + findMode());
