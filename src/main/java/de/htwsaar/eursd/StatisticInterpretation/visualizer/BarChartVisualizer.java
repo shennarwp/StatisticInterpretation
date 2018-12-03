@@ -32,26 +32,31 @@ public class BarChartVisualizer extends ChartVisualizer
 		return dataset;
 	}
 
-	@Override
-	public void displayChart()  {
-
+	public JFreeChart createChart() {
 		String category = CATEGORY[analyzer.getCHOSENCATEGORY()];
 		String title = "Frequency distribution for category : " + category;
 		String value = "Number of People";
 
-		JFreeChart barChartForWeight = ChartFactory.createBarChart3D(
-														title,
-														category,
-														value,
-														dataset,
-														PlotOrientation.VERTICAL,
-												false,
-												true,
-													false);
+		JFreeChart barChart = ChartFactory.createBarChart3D(
+				title,
+				category,
+				value,
+				dataset,
+				PlotOrientation.VERTICAL,
+				false,
+				true,
+				false);
+		return barChart;
+	}
 
-		CategoryPlot plot = barChartForWeight.getCategoryPlot();
+	@Override
+	public void displayChart()  {
+
+		JFreeChart barChart = createChart();
+
+		CategoryPlot plot = barChart.getCategoryPlot();
 		plot.setRangeGridlinePaint(new Color(192,192,192));
-		ChartFrame frame = new ChartFrame(title, barChartForWeight);
+		ChartFrame frame = new ChartFrame(barChart.getTitle().toString(), barChart);
 		frame.setSize(900,600);
 		frame.setVisible(true);
 

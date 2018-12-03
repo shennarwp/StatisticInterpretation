@@ -140,60 +140,62 @@ public class ContinuousAnalyzer extends Analyzer
 	/**
 	 * find the average value of the category
 	 */
-	double findMean() {
+	private double findMean() {
 		return statistics.getMean();
 	}
 
 	/**
 	 * find the Median value (50% quantile) of the category
 	 */
-	double findMedian() {
+	private double findMedian() {
 		return statistics.getPercentile(50);
 	}
 
 	/**
 	 * find the 25% quantile of the category
 	 */
-	double find25PercentQuantile() {
+	private double find25PercentQuantile() {
 		return statistics.getPercentile(25);
 	}
 
 	/**
 	 * find the 75% quantile of the category
 	 */
-	double find75PercentQuantile() {
+	private double find75PercentQuantile() {
 		return statistics.getPercentile(25);
 	}
 
 	/**
 	 * find the percentile range (Quartilabstand) of the category
 	 */
-	double findPercentileRange() {
+	private double findPercentileRange() {
 		return find75PercentQuantile() - find25PercentQuantile();
 	}
 
 	/**
 	 * find the range (Spannweite) of the category
 	 */
-	double findRange() {
+	private double findRange() {
 		return getMax() - getMin();
 	}
 
 	/**
 	 * find the variance (Streuung) of the category
 	 */
-	double findVariance() {
+	private double findVariance() {
 		return statistics.getVariance();
 	}
 
 	/**
 	 * find the standard deviation (Standardabweichung) of the category
 	 */
-	double findStandardDeviation() {
+	private double findStandardDeviation() {
 		return statistics.getStandardDeviation();
 	}
 
-	//print method
+	/**
+	 * print method of various statistical values
+	 */
 	@Override
 	public void printStatistics(){
 		System.out.println("Mean: " + findMean());
@@ -203,7 +205,7 @@ public class ContinuousAnalyzer extends Analyzer
 		System.out.println("Range: " + findRange());
 		System.out.println("Quantile-range:" + findPercentileRange());
 		System.out.println("Variance: " + findVariance());
-		System.out.println("Standard Deviation" + findStandardDeviation());
+		System.out.println("Standard Deviation: " + findStandardDeviation());
 		System.out.println("\n");
 
 	}

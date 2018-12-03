@@ -114,12 +114,14 @@ public class DiscreteAnalyzer extends Analyzer
 	 * find the most frequent element in the data
 	 * @return List containing element(s) which have the highest frequency
 	 */
-	List<Comparable<?>> findMode() {
+	private List<Comparable<?>> findMode() {
 
 		return frequency.getMode();
 	}
 
-    //print method
+	/**
+	 * print method of most frequent element
+	 */
 	@Override
 	public void printStatistics(){
 		System.out.println("Mode: " + findMode());

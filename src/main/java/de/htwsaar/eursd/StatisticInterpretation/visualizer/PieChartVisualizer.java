@@ -28,20 +28,27 @@ public class PieChartVisualizer extends ChartVisualizer
 		return dataset;
 	}
 
-	@Override
-	public void displayChart() {
+	public JFreeChart createChart() {
 		String category = CATEGORY[analyzer.getCHOSENCATEGORY()];
 		String title = "Frequency distribution for category : " + category;
 		JFreeChart pieChart = ChartFactory.createPieChart(
-											title,
-											dataset,
-									true,
-									true,
-										false);
+				title,
+				dataset,
+				true,
+				true,
+				false);
+		return pieChart;
+
+	}
+
+	@Override
+	public void displayChart() {
+
+		JFreeChart pieChart = createChart();
 
 		PiePlot plot = (PiePlot)pieChart.getPlot();
 		plot.setForegroundAlpha(Plot.DEFAULT_BACKGROUND_ALPHA);
-		ChartFrame frame = new ChartFrame(title, pieChart);
+		ChartFrame frame = new ChartFrame(pieChart.getTitle().toString(), pieChart);
 		frame.setSize(600,600);
 		frame.setVisible(true);
 	}

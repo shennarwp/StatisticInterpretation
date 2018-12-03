@@ -5,8 +5,8 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 
-import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -15,7 +15,7 @@ import java.util.Locale;
 
 class Parser
 {
-	private static final String FILE_PATH = "src/main/resources/medizin.csv";
+	private static final String FILE_PATH = "medizin.csv";
 
 	private static int parseBloodType(String bloodType) {
 		if(bloodType.equals("0"))
@@ -38,8 +38,8 @@ class Parser
 	static ArrayList<MedicalRecord> parseRecords() {
 		ArrayList<MedicalRecord> records = new ArrayList<>();
 		try {
-			File file = new File(FILE_PATH);
-			CSVParser parser = CSVParser.parse(file, Charset.defaultCharset(),
+			InputStream in = Parser.class.getClassLoader().getResourceAsStream(FILE_PATH);
+			CSVParser parser = CSVParser.parse(in, Charset.defaultCharset(),
 								CSVFormat.DEFAULT
 										 .withDelimiter(';')
 										 .withFirstRecordAsHeader());

@@ -33,5 +33,6 @@ public abstract class Analyzer
 	 * will be implemented and overridden in all subclass of Analyzer
 	 */
 	public abstract FrequencyTable countFrequency();
+
 	public abstract void printStatistics();
 }
